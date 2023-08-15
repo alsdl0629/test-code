@@ -1,5 +1,6 @@
 package sample.cafekiosk.unit;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import sample.cafekiosk.unit.beverage.Americano;
 import sample.cafekiosk.unit.beverage.Latte;
@@ -9,18 +10,17 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 class CafeKioskTest {
 
     @Test
     void add_manual_test() {
         /*
-        * 테스트 코드 문제점
-        * 1. 최종 단계에서 사람이 개입해야 확인해야 함.
-        * 2. 다른 사람이 이 테스트 코드를 보고 의도 파악 X
-        * 수동 테스트 였던것
-        */
+         * 테스트 코드 문제점
+         * 1. 최종 단계에서 사람이 개입해야 확인해야 함.
+         * 2. 다른 사람이 이 테스트 코드를 보고 의도 파악 X
+         * 수동 테스트 였던것
+         */
         CafeKiosk cafeKiosk = new CafeKiosk();
         cafeKiosk.add(new Americano());
 
@@ -28,6 +28,8 @@ class CafeKioskTest {
         System.out.println(">>> 담긴 음료 : " + cafeKiosk.getBeverages().get(0).getName());
     }
 
+    //    @DisplayName("음료 1개 추가 테스트")
+    @DisplayName("음료 1개를 추가하 주문 목록에 담긴다.")
     @Test
     void add() {
         CafeKiosk cafeKiosk = new CafeKiosk();
@@ -37,7 +39,8 @@ class CafeKioskTest {
         assertThat(cafeKiosk.getBeverages().get(0).getName()).isEqualTo("아메리카노");
     }
 
-    @Test // 해피케이스
+    @Test
+        // 해피케이스
     void addSeveralBeverages() {
         CafeKiosk cafeKiosk = new CafeKiosk();
         Americano americano = new Americano();
@@ -48,7 +51,8 @@ class CafeKioskTest {
         assertThat(cafeKiosk.getBeverages().get(1)).isEqualTo(americano);
     }
 
-    @Test // 해피케이스
+    @Test
+        // 해피케이스
     void addOneBeverages() {
         CafeKiosk cafeKiosk = new CafeKiosk();
         Americano americano = new Americano();
@@ -58,7 +62,8 @@ class CafeKioskTest {
         assertThat(cafeKiosk.getBeverages().get(0)).isEqualTo(americano);
     }
 
-    @Test // 예케이스
+    @Test
+        // 예케이스
     void addZeroBeverages() {
         CafeKiosk cafeKiosk = new CafeKiosk();
         Americano americano = new Americano();
@@ -94,8 +99,10 @@ class CafeKioskTest {
         assertThat(cafeKiosk.getBeverages()).isEmpty();
     }
 
+    @DisplayName("주문 목록에 담긴 상품들의 총 금액을 계산할 수 있다.")
     @Test
     void calculateTotalPrice() {
+        // given
         CafeKiosk cafeKiosk = new CafeKiosk();
         Americano americano = new Americano();
         Latte latte = new Latte();
@@ -103,10 +110,24 @@ class CafeKioskTest {
         cafeKiosk.add(americano);
         cafeKiosk.add(latte);
 
+        // when
         int totalPrice = cafeKiosk.calculateTotalPrice();
 
+        // then
         assertThat(totalPrice).isEqualTo(8500);
     }
+
+
+    @DisplayName("")
+    @Test
+    void test() {
+        // given
+
+        // when
+
+        // then
+    }
+
 
     @Test
     void createOrder() {
@@ -126,7 +147,7 @@ class CafeKioskTest {
         Americano americano = new Americano();
         cafeKiosk.add(americano);
 
-        Order order = cafeKiosk.createOrder(LocalDateTime.of(2023, 8, 15, 10 , 0));
+        Order order = cafeKiosk.createOrder(LocalDateTime.of(2023, 8, 15, 10, 0));
 
         assertThat(order.getBeverages()).hasSize(1);
         assertThat(order.getBeverages().get(0).getName()).isEqualTo("아메리카노");
@@ -138,7 +159,7 @@ class CafeKioskTest {
         Americano americano = new Americano();
         cafeKiosk.add(americano);
 
-        assertThatThrownBy(() ->cafeKiosk.createOrder(LocalDateTime.of(2023, 8, 15, 9 , 59 )))
+        assertThatThrownBy(() -> cafeKiosk.createOrder(LocalDateTime.of(2023, 8, 15, 9, 59)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("주문 시간이 아닙니다. 관리자에 문의하세요.");
     }
