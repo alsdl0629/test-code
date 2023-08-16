@@ -20,7 +20,8 @@ import static sample.cafekiosk.spring.domain.product.ProductType.HANDMADE;
 
 @ActiveProfiles("test")
 //@SpringBootTest // 스프링에서 통합테스트를 위해 제공하는 어노테이션. 테스트를 실행할 때 스프링 서버를 띄워서 테스트를 할 수 있음
-@DataJpaTest // @@SpringBootTest 보다 가벼움. jpa관련 빈들만 주입을 해줘서 서버를 띄우기 때문에 속도가 빠름
+@DataJpaTest // @@SpringBootTest 보다 가벼움. jpa관련 빈들만 주입을 해줘서 서버를 띄우기 때문에 속도가 빠름.
+            // @Transactional이 안에 있는데 이 어노테이션이 테스에 달면 자동으로 롤백이. @SpringBootTest와 가장 큰 차이점
 class ProductRepositoryTest {
 
     @Autowired
