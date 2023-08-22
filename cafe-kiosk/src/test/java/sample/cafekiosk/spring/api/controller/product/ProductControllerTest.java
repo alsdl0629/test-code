@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import sample.cafekiosk.spring.ControllerTestSupport;
 import sample.cafekiosk.spring.api.controller.product.dto.request.ProductCreateRequest;
 import sample.cafekiosk.spring.api.service.product.ProductService;
 import sample.cafekiosk.spring.api.service.product.response.ProductResponse;
@@ -27,21 +28,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * controller 관련 빈들만 올릴 수 있는 가벼운 테스트 어노테이션
  * 테스트하고자 하는 컨트롤러를 명시
  */
-@WebMvcTest(controllers = ProductController.class)
-class ProductControllerTest {
+//@WebMvcTest(controllers = ProductController.class)
+class ProductControllerTest extends ControllerTestSupport {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    /**
-     * mockito 라이브러리 starter-test 의존성에 포함
-     * 컨테이너에 mockito로 만든 mock 객체를 넣어주는 역할
-     */
-    @MockBean
-    private ProductService productService;
+//    @Autowired
+//    private MockMvc mockMvc;
+//
+//    @Autowired
+//    private ObjectMapper objectMapper;
+//
+//    /**
+//     * mockito 라이브러리 starter-test 의존성에 포함
+//     * 컨테이너에 mockito로 만든 mock 객체를 넣어주는 역할
+//     */
+//    @MockBean
+//    private ProductService productService;
 
     @DisplayName("신규 상품을 등록한다.")
     @Test

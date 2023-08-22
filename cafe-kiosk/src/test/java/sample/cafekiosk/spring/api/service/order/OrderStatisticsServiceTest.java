@@ -7,6 +7,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import sample.cafekiosk.spring.IntegrationTestSupport;
 import sample.cafekiosk.spring.client.mail.MailSendClient;
 import sample.cafekiosk.spring.domain.history.mail.MailSendHistory;
 import sample.cafekiosk.spring.domain.history.mail.MailSendHistoryRepository;
@@ -28,8 +29,8 @@ import static org.mockito.Mockito.when;
 import static sample.cafekiosk.spring.domain.product.ProductSellingStatus.SELLING;
 import static sample.cafekiosk.spring.domain.product.ProductType.HANDMADE;
 
-@SpringBootTest
-class OrderStatisticsServiceTest {
+//@SpringBootTest
+class OrderStatisticsServiceTest extends IntegrationTestSupport {
 
     @Autowired
     private OrderStatisticsService orderStatisticsService;
@@ -47,8 +48,8 @@ class OrderStatisticsServiceTest {
     private MailSendHistoryRepository mailSendHistoryRepository;
 
     // @Component가 있어 Mock 객체로 갈아 치워줌
-    @MockBean
-    private MailSendClient mailSendClient;
+//    @MockBean
+//    private MailSendClient mailSendClient;
 
     @AfterEach
     void tearDown() {
@@ -92,7 +93,7 @@ class OrderStatisticsServiceTest {
         List<MailSendHistory> histories = mailSendHistoryRepository.findAll();
         assertThat(histories).hasSize(1)
                 .extracting("content")
-                .contains("총 매출 합계는 12000원 입니다.");
+                .contains("총 매출 합계는 12000원입니다.");
 
     }
 

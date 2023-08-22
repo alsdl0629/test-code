@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import sample.cafekiosk.spring.IntegrationTestSupport;
 
 import java.util.List;
 
@@ -12,8 +13,8 @@ import static org.assertj.core.groups.Tuple.tuple;
 import static sample.cafekiosk.spring.domain.product.ProductSellingStatus.HOLD;
 import static sample.cafekiosk.spring.domain.product.ProductSellingStatus.SELLING;
 
-@DataJpaTest
-class StockRepositoryTest {
+//@DataJpaTest
+class StockRepositoryTest extends IntegrationTestSupport {
 
     @Autowired
     private StockRepository stockRepository;

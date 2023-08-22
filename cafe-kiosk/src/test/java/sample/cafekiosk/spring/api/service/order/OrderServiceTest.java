@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import sample.cafekiosk.spring.IntegrationTestSupport;
 import sample.cafekiosk.spring.api.controller.order.request.OrderCreateRequest;
 import sample.cafekiosk.spring.api.service.order.request.OrderCreateServiceRequest;
 import sample.cafekiosk.spring.api.service.order.response.OrderResponse;
@@ -29,13 +30,13 @@ import static sample.cafekiosk.spring.domain.product.ProductType.BAKERY;
 import static sample.cafekiosk.spring.domain.product.ProductType.BOTTLE;
 import static sample.cafekiosk.spring.domain.product.ProductType.HANDMADE;
 
-@ActiveProfiles("test")
+//@ActiveProfiles("test")
 //@Transactional // 조심. 실제 프로덕션 코드가 트랜잭션이 걸린것처럼 느낄수있음. 테스트를 수행할 때는 트랜잭션 설정이 되어있으니까 변경 감지를  통해
               // update 쿼리가 나가지만 프로덕션 코드에 트랜잭션이 적용되어있지 않고 배포가 되었다면 뒤늦게 발견될수있음.
              // 테스트 코드에서 트랜잭션을 적용하면 OrderProductRepository와 같이 불필요한 기능을 주입받지 않고 롤백 가능
-@SpringBootTest
+//@SpringBootTest
 //@DataJpaTest // OrderService를 찾지 못함
-class OrderServiceTest {
+class OrderServiceTest extends IntegrationTestSupport {
 
     @Autowired
     private ProductRepository productRepository;

@@ -3,23 +3,24 @@ package sample.cafekiosk.spring.domain.product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
+import sample.cafekiosk.spring.IntegrationTestSupport;
 
 import java.util.List;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.assertj.core.groups.Tuple.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 import static sample.cafekiosk.spring.domain.product.ProductSellingStatus.HOLD;
 import static sample.cafekiosk.spring.domain.product.ProductSellingStatus.SELLING;
 import static sample.cafekiosk.spring.domain.product.ProductSellingStatus.STOP_SELLING;
 import static sample.cafekiosk.spring.domain.product.ProductType.HANDMADE;
 
-@ActiveProfiles("test")
+//@ActiveProfiles("test")
 //@SpringBootTest // 스프링에서 통합테스트를 위해 제공하는 어노테이션. 테스트를 실행할 때 스프링 서버를 띄워서 테스트를 할 수 있음
-@DataJpaTest // @@SpringBootTest 보다 가벼움. jpa관련 빈들만 주입을 해줘서 서버를 띄우기 때문에 속도가 빠름.
-            // @Transactional이 안에 있는데 이 어노테이션이 테스에 달면 자동으로 롤백이. @SpringBootTest와 가장 큰 차이점
-class ProductRepositoryTest {
+//@DataJpaTest // @@SpringBootTest 보다 가벼움. jpa관련 빈들만 주입을 해줘서 서버를 띄우기 때문에 속도가 빠름.
+// @Transactional이 안에 있는데 이 어노테이션이 테스에 달면 자동으로 롤백이. @SpringBootTest와 가장 큰 차이점
+@Transactional
+class ProductRepositoryTest extends IntegrationTestSupport {
 
     @Autowired
     private ProductRepository productRepository;
@@ -32,7 +33,7 @@ class ProductRepositoryTest {
         Product product2 = createProduct("002", HANDMADE, HOLD, "카페라떼", 4500);
         Product product3 = createProduct("003", HANDMADE, STOP_SELLING, "팥빙수", 7000);
         productRepository.saveAll(List.of(product1, product2, product3));
-        
+
         // when
         List<Product> products = productRepository.findAllBySellingStatusIn(List.of(SELLING, HOLD));
 
