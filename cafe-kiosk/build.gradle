@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.2'
     id 'io.spring.dependency-management' version '1.1.2'
+    id "org.asciidoctor.jvm.convert" version "3.3.2"
 }
 
 group = 'sample'
@@ -15,6 +16,7 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    asciidoctorExt
 }
 
 repositories {
@@ -40,8 +42,39 @@ dependencies {
     // Guava
     implementation("com.google.guava:guava:31.1-jre")
 
+    // Rest Docs
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'// asciidoc 을 html로 변환
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+ext {  // 전역 변수
+    snippetsDir = file('build/generated-snippets') // 문서의 조각 조각을 snippet 이라고 함
+}
+
+test {
+    outputs.dir snippetsDir // 테스트에 대한 결과물을 snippetsDir에 넣음
+}
+
+asciidoctor {
+    inputs.dir snippetsDir // snippetsDir 결과물을 받아옴
+    configurations 'asciidoctorExt' // 확장 플러그인을 적용한 걸 통해 문서를 만듬
+
+    sources {
+        include("**/index.adoc")
+    }
+    baseDirFollowsSourceDir() // 다른 adoc 파일을 include 할 때 경로를 baseDir로 맞춤
+    dependsOn test // dependsOn 작업 순서를 정함 test 테스크 수행 후 asciidoctor 테스크 수행
+}
+
+bootJar { // 자르를 만드는 과정
+    dependsOn asciidoctor // 여기도 순서를 지정. asciidoctor 실행 후 bootJar 실행
+    from("${asciidoctor.outputDir}") {
+        into 'static/docs' // 정적 파일을 보기위해 해당 경로에 복사
+    }
+}
+// 빌드를 하게 되면 test -> asciidoctor -> bootJar 순으로 실행
